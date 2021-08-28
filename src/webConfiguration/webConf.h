@@ -17,4 +17,4 @@ void configureIotWebConf(WebServer::THandlerFunction configSavedCallback, WebSer
 
 mqttData getMqttData();
 
-#endif;
+#endif

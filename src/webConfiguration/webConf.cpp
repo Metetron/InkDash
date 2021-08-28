@@ -1,5 +1,5 @@
 #include "webConf.h"
-#include "conversion\conversionHelper.h"
+#include "conversion/conversionHelper.h"
 #include <IotWebConf.h>
 #include <IotWebConfESP32HTTPUpdateServer.h>
 #include <IotWebConfUsing.h>
@@ -31,7 +31,7 @@ void configureIotWebConf(WebServer::THandlerFunction configSavedCallback, WebSer
     webConf.setConfigSavedCallback(configSavedCallback);
     webConf.setWifiConnectionCallback(wifiConnectedCallback);
     webConf.setupUpdateServer(
-        [](const char *updatePath){httpUpdater.setup(&webServer, updatePath)}.
+        [](const char *updatePath){httpUpdater.setup(&webServer, updatePath);},
         [](const char *username, char *password){httpUpdater.updateCredentials(username, password);}
     );
     webConf.skipApStartup();
