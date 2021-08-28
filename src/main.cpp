@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "deviceName/deviceName.h"
+#include "mqtt/mqttHelper.h"
 #include "secrets.h"
 #include "webConfiguration/webConf.h"
 #include <DNSServer.h>
@@ -17,6 +18,7 @@ void handleConfigSaved()
 {
   Serial.println("Config saved");
   Serial.println("Device will reboot to use new settings...");
+  publishToMqttSubTopic("/status", "Config changed");
   webConf.delay(1000);
   ESP.restart();
 }
@@ -27,11 +29,19 @@ void handleWifiConnected()
   isWifiConnected = true;
 }
 
+void connectedToMqtt()
+{
+  Serial.println("Connected to MQTT Server");
+  publishToMqttSubTopic("/status", "connected");
+}
+
 void backgroundLoop(void *parameter)
 {
   for(;;)
   {
     webConf.doLoop();
+    setupMqtt(connectedToMqtt);
+    mqttLoop();
   }
 }
 
