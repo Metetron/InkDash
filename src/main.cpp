@@ -42,7 +42,7 @@ void setup() {
   xTaskCreatePinnedToCore(
     backgroundLoop,
     "Background Loop",
-    1000,
+    10000,
     NULL,
     0,
     &BackgroundTask,
@@ -51,6 +51,4 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(xPortGetCoreID());
-  delay(5000);
 }
